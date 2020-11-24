@@ -1,0 +1,17 @@
+{
+  "name": "roon-extesion-lirc",
+  "description": "Roon Extension to control Roon via lirc",
+  "version": "1.0.0",
+  "main": "app.js",
+  "private": true,
+  "dependencies": {
+    "lirc_node": "github:alexbain/lirc_node",
+    "node-roon-api": "github:roonlabs/node-roon-api",
+    "node-roon-api-image": "github:roonlabs/node-roon-api-image",
+    "node-roon-api-status": "github:roonlabs/node-roon-api-status",
+    "node-roon-api-transport": "github:roonlabs/node-roon-api-transport",
+    "node-roon-api-browse": "github:roonlabs/node-roon-api-browse",
+    "node-roon-api-settings": "github:roonlabs/node-roon-api-settings",
+    "node-roon-api-source-control": "github:roonlabs/node-roon-api-source-control"
+  }
+}
