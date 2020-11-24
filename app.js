@@ -39,6 +39,7 @@ var roon = new RoonApi({
 var mysettings = roon.load_config("settings") || {
     remoteName:    "",
     zone:          null,
+    playpauseKey:  null,
 };
 
 function makelayout(settings) {
@@ -70,6 +71,20 @@ function makelayout(settings) {
             });
         }
         l.layout.push(lircSelector);
+
+        let lircSelectorPlayPause = {
+            type:    "dropdown",
+            title:   "Play/Pause Key",
+            values:  [],
+            setting: "playpauseKey",
+            };
+        for (var command in LircNode.remotes[remoteName]) {
+            lircSelector.values.push({
+                title: command,
+                value: command
+            });
+        }
+        l.layout.push(lircSelectorPlayPause);
 
         return l;
 }
