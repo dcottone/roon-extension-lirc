@@ -71,22 +71,24 @@ function makelayout(settings) {
             });
         }
         l.layout.push(lircSelector);
-
+/*
         let lircSelectorPlayPause = {
             type:    "dropdown",
             title:   "Play/Pause Key",
             values:  [],
             setting: "playpauseKey",
             };
+
         for (var command in LircNode.remotes[JustBoom]) {
             lircSelector.values.push({
                 title: command,
                 value: command
             });
         }
-        
+
         l.layout.push(lircSelectorPlayPause);
 
+    */
         return l;
 }
 
@@ -122,6 +124,8 @@ function setup() {
     //initialize lirc_node
     for (var remote in LircNode.remotes)
         console.log("remote = " + remote);
+
+    console.log (stringify(LircNode.remotes));
 
     // Listening for commands
 var listenerId = LircNode.addListener(function(data) {
