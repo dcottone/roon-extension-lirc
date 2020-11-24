@@ -100,8 +100,9 @@ function setup() {
     //initialize lirc_node
     for (var remote in LircNode.remotes)
         console.log("remote = " + remote);
-    update_status();
     
+    update_status();
+
 
     // Listening for commands
 var listenerId = LircNode.addListener(function(data) {
