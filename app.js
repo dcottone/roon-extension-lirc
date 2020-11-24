@@ -102,6 +102,11 @@ function setup() {
 
     update_status();
 
+    // Listening for commands
+var listenerId = lirc_node.addListener(function(data) {
+    console.log("Received IR keypress '" + data.key + "'' from remote '" + data.remote +"'");
+  });
+
     console.log(mysettings);
 }
 
