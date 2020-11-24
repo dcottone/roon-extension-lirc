@@ -84,6 +84,7 @@ function makelayout(settings) {
                 value: command
             });
         }
+        
         l.layout.push(lircSelectorPlayPause);
 
         return l;
