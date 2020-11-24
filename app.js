@@ -39,6 +39,7 @@ var roon = new RoonApi({
 var mysettings = roon.load_config("settings") || {
     remoteName:    "",
     zone:          null,
+    source:        null,
 };
 
 function makelayout(settings) {
@@ -70,6 +71,14 @@ function makelayout(settings) {
             });
         }
         l.layout.push(lircSelector);
+
+        l.layout.push({
+            type:      "string",
+            title:     "Source",
+            subtitle:  "The source of the AVR for your music playback. (e.g. strm-box or bd)",
+            maxlength: 10,
+            setting:   "source",
+        });
         return l;
 }
 
