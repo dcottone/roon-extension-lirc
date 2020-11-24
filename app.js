@@ -126,7 +126,8 @@ function setup() {
         console.log("remote = " + remote);
 
      console.log ("--------------------------------- " +JSON.stringify(LircNode.remotes));
-     
+
+    
     // Listening for commands
 var listenerId = LircNode.addListener(function(data) {
     console.log("Received IR keypress '" + data.key + "'' from remote '" + data.remote +"'");
