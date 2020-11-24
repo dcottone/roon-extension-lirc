@@ -98,7 +98,8 @@ function setup() {
     console.log("[LIRControl Extension] Setup: ", mysettings.remoteName);
     LircNode.init();
     //initialize lirc_node
-    console.log("remotes" + LircNode.remotes);
+    for (var remote in LircNode.remotes)
+        console.log("remote = " + remote);
     update_status();
 
     // Listening for commands
