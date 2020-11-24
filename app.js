@@ -57,13 +57,19 @@ function makelayout(settings) {
             });
 
     //name of the remote from the LIRC setup (on linux: /etc/lirc/lircd.conf)
-        l.layout.push({
-            type:      "string",
-            title:     "LIRC Remote Name",
-            maxlength: 256,
-            setting:   "remoteName",
-        });
-        
+        let lircSelector = {
+            type:    "dropdown",
+            title:   "LIRC Remote Name",
+            values:  [],
+            setting: "remoteName",
+            };
+        for (var remote in LircNode.remotes) {
+            lircSelector.values.push({
+                title: remote,
+                value: remote
+            });
+        }
+        l.layout.push(lircSelector);
         return l;
 }
 
