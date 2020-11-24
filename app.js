@@ -78,7 +78,7 @@ function makelayout(settings) {
             values:  [],
             setting: "playpauseKey",
             };
-        for (var command in LircNode.remotes['JustBoom']) {
+        for (var command in LircNode.remotes[JustBoom]) {
             lircSelector.values.push({
                 title: command,
                 value: command
