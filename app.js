@@ -14,6 +14,7 @@ var roon = new RoonApi({
     website:             'https://github.com/stefan747/roon-extension-IRControl',
 
     core_paired: function(core) {
+        setup();
         update_status();
         let transport = core.services.RoonApiTransport;
         transport.subscribe_zones(function(cmd, data) {
