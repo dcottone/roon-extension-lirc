@@ -13,8 +13,7 @@ var roon = new RoonApi({
     email:               'daniele.cottone@gmail.com',
     website:             'https://github.com/stefan747/roon-extension-IRControl',
 
-    core_paired: function(core) {
-        setup(); 
+    core_paired: function(core) { 
         update_status();
         let transport = core.services.RoonApiTransport;
         transport.subscribe_zones(function(cmd, data) {
@@ -100,9 +99,6 @@ function setup() {
     //initialize lirc_node
     for (var remote in LircNode.remotes)
         console.log("remote = " + remote);
-    
-    update_status();
-
 
     // Listening for commands
 var listenerId = LircNode.addListener(function(data) {
@@ -119,6 +115,6 @@ function update_status() {
 	svc_status.set_status("Could not find LIRC device.", true)
 }
 
-//setup();
+setup();
 
 roon.start_discovery();
