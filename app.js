@@ -95,7 +95,6 @@ roon.init_services({
 });
 
 function setup() {
-    console.log("[LIRControl Extension] Setup: ", mysettings.remoteName);
     LircNode.init();
     //initialize lirc_node
     for (var remote in LircNode.remotes)
