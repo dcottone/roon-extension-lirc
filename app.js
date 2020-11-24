@@ -11,7 +11,7 @@ var roon = new RoonApi({
     display_version:     "1.0.0",
     publisher:           'Daniele Cottone',
     email:               'daniele.cottone@gmail.com',
-    website:             'https://github.com/stefan747/roon-extension-IRControl',
+    website:             'http://192.168.1.16:380/dcottone/roon-extension-lirc',
 
     core_paired: function(core) { 
         update_status();
