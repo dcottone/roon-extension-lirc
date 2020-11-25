@@ -209,9 +209,6 @@ function start_listener(){
     if (mysettings.playpauseKey && mysettings.remoteName)
     playpauseListenerID = LircNode.addListener(mysettings.playpauseKey, mysettings.remoteName, function(data) {
         transport.control(mysettings.zone, 'playpause');
-        // data also has `code` and `repeat` properties from the output of `irw`
-        // The final argument after this callback is a throttle allowing you to 
-        // specify to only execute this callback once every x milliseconds.
         }, 400);
 
     if (mysettings.nextKey && mysettings.remoteName)
@@ -220,7 +217,7 @@ function start_listener(){
         }, 400);
     if (mysettings.prevKey && mysettings.remoteName)
     prevListenerID = LircNode.addListener(mysettings.prevKey, mysettings.remoteName, function(data) {
-            transport.control(mysettings.zone, 'prev');
+            transport.control(mysettings.zone, 'previous');
         }, 400);
 }
 
