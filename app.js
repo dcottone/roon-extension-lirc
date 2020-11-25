@@ -5,6 +5,8 @@ var LircNode             = require('lirc_node'),
     RoonApiStatus        = require('node-roon-api-status'),
     RoonApiTransport     = require('node-roon-api-transport');
 
+var transport;    
+
 var roon = new RoonApi({
     extension_id:        'com.dcaudio.roon.LIRControl',
     display_name:        'LIRC Remote Control',
@@ -15,7 +17,8 @@ var roon = new RoonApi({
 
     core_paired: function(core) { 
         update_status();
-        let transport = core.services.RoonApiTransport;
+        transport = core.services.RoonApiTransport;
+        
         transport.subscribe_zones(function(cmd, data) {
                                       console.log(core.core_id,
                                                   core.display_name,
@@ -37,9 +40,13 @@ var roon = new RoonApi({
 });
 
 var mysettings = roon.load_config("settings") || {
-    remoteName:    "",
+    remoteName:    null,
     zone:          null,
     playpauseKey:  null,
+    nextKey:       null,
+    prevKey:       null,
+    volumeUpKey:   null,
+    volumeDownKey: null,
 };
 
 function makelayout(settings) {
@@ -58,37 +65,110 @@ function makelayout(settings) {
             });
 
     //name of the remote from the LIRC setup (on linux: /etc/lirc/lircd.conf)
-        let lircSelector = {
+        let lircRemoteController = {
             type:    "dropdown",
             title:   "LIRC Remote Name",
             values:  [],
             setting: "remoteName",
             };
+
         for (var remote in LircNode.remotes) {
-            lircSelector.values.push({
+            lircRemoteController.values.push({
                 title: remote,
                 value: remote
             });
         }
-        l.layout.push(lircSelector);
-/*
-        let lircSelectorPlayPause = {
+        l.layout.push(lircRemoteController);
+
+        let lircPlayPauseKeyValue = {
             type:    "dropdown",
             title:   "Play/Pause Key",
             values:  [],
             setting: "playpauseKey",
             };
-
-        for (var command in LircNode.remotes[JustBoom]) {
-            lircSelector.values.push({
-                title: command,
-                value: command
-            });
+            
+        if (settings.remoteName){
+            for (var index in LircNode.remotes[settings.remoteName]) {
+                var commandName = LircNode.remotes[settings.remoteName][index];
+                lircPlayPauseKeyValue.values.push({
+                    title: commandName,
+                    value: commandName
+                });
+            }
         }
+        l.layout.push(lircPlayPauseKeyValue);
 
-        l.layout.push(lircSelectorPlayPause);
+        let lircPrevKeyValue = {
+            type:    "dropdown",
+            title:   "Prev Key",
+            values:  [],
+            setting: "prevKey",
+            };
+            
+        if (settings.remoteName){
+            for (var index in LircNode.remotes[settings.remoteName]) {
+                var commandName = LircNode.remotes[settings.remoteName][index];
+                lircPrevKeyValue.values.push({
+                    title: commandName,
+                    value: commandName
+                });
+            }
+        }
+        l.layout.push(lircPrevKeyValue);
 
-    */
+        let lircNextKeyValue = {
+            type:    "dropdown",
+            title:   "Next Key",
+            values:  [],
+            setting: "nextKey",
+            };
+            
+        if (settings.remoteName){
+            for (var index in LircNode.remotes[settings.remoteName]) {
+                var commandName = LircNode.remotes[settings.remoteName][index];
+                lircNextKeyValue.values.push({
+                    title: commandName,
+                    value: commandName
+                });
+            }
+        }
+        l.layout.push(lircNextKeyValue);
+
+        let lircVolumeUpKeyValue = {
+            type:    "dropdown",
+            title:   "Volume Up",
+            values:  [],
+            setting: "volumeUpKey",
+            };
+            
+        if (settings.remoteName){
+            for (var index in LircNode.remotes[settings.remoteName]) {
+                var commandName = LircNode.remotes[settings.remoteName][index];
+                lircVolumeUpKeyValue.values.push({
+                    title: commandName,
+                    value: commandName
+                });
+            }
+        }
+        l.layout.push(lircVolumeUpKeyValue);        
+
+        let lircVolumeDownKeyValue = {
+            type:    "dropdown",
+            title:   "Volume Down",
+            values:  [],
+            setting: "volumeDownKey",
+            };
+            
+        if (settings.remoteName){
+            for (var index in LircNode.remotes[settings.remoteName]) {
+                var commandName = LircNode.remotes[settings.remoteName][index];
+                lircVolumeDownKeyValue.values.push({
+                    title: commandName,
+                    value: commandName
+                });
+            }
+        }
+        l.layout.push(lircVolumeDownKeyValue); 
         return l;
 }
 
@@ -106,9 +186,11 @@ var svc_settings = new RoonApiSettings(roon, {
             svc_settings.update_settings(l);
             let force = false;
             if (oldremotename != mysettings.remoteName) force = true;
-            if (force) setup();
+            //if (force) setup();
             roon.save_config("settings", mysettings);
         }
+        start_listener();
+        update_status();
     }
 });
 
@@ -119,20 +201,30 @@ roon.init_services({
     required_services: [ RoonApiTransport ],
 });
 
-function setup() {
+var playpauseListenerID = null;
+var nextListenerID = null;
+var prevListenerID = null;
+
+function start_listener(){
+    
+    playpauseListenerID = LircNode.addListener(mysettings.playpauseKey, mysettings.remoteName, function(data) {
+        transport.control(mysettings.zone, 'playpause');
+        // data also has `code` and `repeat` properties from the output of `irw`
+        // The final argument after this callback is a throttle allowing you to 
+        // specify to only execute this callback once every x milliseconds.
+        }, 400);
+
+    nextListenerID = LircNode.addListener(mysettings.nextKey, mysettings.remoteName, function(data) {
+        transport.control(mysettings.zone, 'next');
+        }, 400);
+
+    prevListenerID = LircNode.addListener(mysettings.prevKey, mysettings.remoteName, function(data) {
+            transport.control(mysettings.zone, 'prev');
+        }, 400);
+}
+
+function setup() { 
     LircNode.init();
-    //initialize lirc_node
-    for (var remote in LircNode.remotes)
-        console.log("remote = " + remote);
-
-     console.log ("--------------------------------- " +JSON.stringify(LircNode.remotes));
-
-    // Listening for commands
-var listenerId = LircNode.addListener(function(data) {
-    console.log("Received IR keypress '" + data.key + "'' from remote '" + data.remote +"'");
-  });
-
-    console.log(mysettings);
 }
 
 function update_status() {
