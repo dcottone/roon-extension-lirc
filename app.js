@@ -247,7 +247,7 @@ function start_listener() {
 
     if (mysettings.volumeMuteKey && mysettings.remoteName)
         listenerID["mute"] = LircNode.addListener(mysettings.volumeMuteKey, mysettings.remoteName, function (data) {
-            how = volume.is_muted ? 'unmute' : 'mute';
+            var how = volume.is_muted ? 'unmute' : 'mute';
             transport.mute(mysettings.zone,how);
         }, 400);
 }
