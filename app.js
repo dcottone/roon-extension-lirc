@@ -276,7 +276,7 @@ function start_listener() {
                     break;
                 }
             }
-            transport.change_volume(context.output, how, value, (status) => {});
+            transport.change_volume(zone, how, value, (status) => {});
         }, 400);
 
     if (mysettings.volumeDownKey && mysettings.remoteName)
@@ -302,7 +302,7 @@ function start_listener() {
                     break;
                 }
             }
-            this.transport.change_volume(context.output, how, value, (status) => {});
+            this.transport.change_volume(zone, how, value, (status) => {});
         }, 400);
 }
 
