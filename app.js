@@ -49,9 +49,9 @@ var mysettings = roon.load_config("settings") || {
     playpauseKey: null,
     nextKey: null,
     prevKey: null,
-    volumeUpKey: null,      // da implementare
-    volumeDownKey: null,    // da implementare
-    volumeMuteKey: null, 
+    volumeUpKey: null, // da implementare
+    volumeDownKey: null, // da implementare
+    volumeMuteKey: null,
 };
 
 function makelayout(settings) {
@@ -250,18 +250,66 @@ function start_listener() {
             zone = transport.zone_by_output_id(mysettings.zone.output_id);
             var volume = zone.outputs[0].volume;
             var how = volume.is_muted ? 'unmute' : 'mute';
-            transport.mute(mysettings.zone,how);
+            transport.mute(mysettings.zone, how);
+        }, 400);
+
+    if (mysettings.volumeUpKey && mysettings.remoteName)
+        listenerID["volumeup"] = LircNode.addListener(mysettings.volumeUpKey, mysettings.remoteName, function (data) {
+            zone = transport.zone_by_output_id(mysettings.zone.output_id);
+            var volume = zone.outputs[0].volume;
+            switch (volume.type) {
+                case 'incremental': {
+                    how = 'relative';
+                    value = 1;
+                    break;
+                }
+                case 'number': {
+                    how = 'relative_step';
+                    value = volume.step;
+                    break;
+                }
+                case 'db': {
+                    how = 'relative_step';
+                    value = volume.step;
+                    break;
+                }
+            }
+            transport.change_volume(context.output, how, value, (status) => {});
+        }, 400);
+
+    if (mysettings.volumeDownKey && mysettings.remoteName)
+        listenerID["volumeup"] = LircNode.addListener(mysettings.volumeDownKey, mysettings.remoteName, function (data) {
+            zone = transport.zone_by_output_id(mysettings.zone.output_id);
+            var volume = zone.outputs[0].volume;
+            switch (volume.type) {
+                case 'incremental': {
+                    how = 'relative';
+                    value = -1;
+                    break;
+                }
+                case 'number': {
+                    how = 'relative_step';
+                    value = -volume.step;
+                    break;
+                }
+                case 'db': {
+                    how = 'relative_step';
+                    value = -volume.step;
+                    break;
+                }
+            }
+            this.transport.change_volume(context.output, how, value, (status) => {});
         }, 400);
 }
 
 function stop_listener() {
     if (listenerID != {})
-    for (const key in listenerID) {
-        if (listenerID.hasOwnProperty(key)) {
-            const element = listenerID[key];
-            LircNode.removeListener(element);
+        for (const key in listenerID) {
+            if (listenerID.hasOwnProperty(key)) {
+                const element = listenerID[key];
+                LircNode.removeListener(element);
+            }
         }
-    }
     listenerID = {};
 }
 
