@@ -258,6 +258,7 @@ function start_listener() {
             zone = transport.zone_by_output_id(mysettings.zone.output_id);
             var volume = zone.outputs[0].volume;
             var how;
+            var value;
             switch (volume.type) {
                 case 'incremental': {
                     how = 'relative';
@@ -283,6 +284,7 @@ function start_listener() {
             zone = transport.zone_by_output_id(mysettings.zone.output_id);
             var volume = zone.outputs[0].volume;
             var how;
+            var value;
             switch (volume.type) {
                 case 'incremental': {
                     how = 'relative';
