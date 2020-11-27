@@ -18,10 +18,9 @@ var roon = new RoonApi({
     website: 'http://192.168.1.16:380/dcottone/roon-extension-lirc',
 
     core_paired: function (core) {
-        update_status();
         transport = core.services.RoonApiTransport;
-        stop_listener();
         start_listener();
+        update_status();
 
         transport.subscribe_zones(function (cmd, data) {
             /* console.log(core.core_id,
@@ -34,6 +33,7 @@ var roon = new RoonApi({
     },
 
     core_unpaired: function (core) {
+        stop_listener();
         /* console.log(core.core_id,
                  core.display_name,
                  core.display_version,
@@ -49,9 +49,9 @@ var mysettings = roon.load_config("settings") || {
     playpauseKey: null,
     nextKey: null,
     prevKey: null,
-    volumeUpKey: null,
-    volumeDownKey: null,
-    volumeMuteKey: null, // da implementare
+    volumeUpKey: null,      // da implementare
+    volumeDownKey: null,    // da implementare
+    volumeMuteKey: null, 
 };
 
 function makelayout(settings) {
@@ -70,6 +70,7 @@ function makelayout(settings) {
     });
 
     //name of the Remote Controller from the LIRC setup (on linux: /etc/lirc/lircd.conf)
+
     let lircRemoteController = {
         type: "dropdown",
         title: "LIRC Remote Name",
@@ -261,9 +262,9 @@ function stop_listener() {
             const element = listenerID[key];
      //       console.log("------------> ELEMENT = "+element);
             LircNode.removeListener(element);
-            listenerID[key]=null;
         }
     }
+    listenerID = {};
 }
 
 function setup() {
