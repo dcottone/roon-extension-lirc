@@ -1,5 +1,5 @@
 "use strict";
-var LircNode = require('lirc_node'),
+var LircNode = require('./lib/lirc_node'),
     RoonApi = require("node-roon-api"),
     RoonApiSettings = require('node-roon-api-settings'),
     RoonApiStatus = require('node-roon-api-status'),
@@ -23,22 +23,11 @@ var roon = new RoonApi({
         update_status();
 
         transport.subscribe_zones(function (cmd, data) {
-            /* console.log(core.core_id,
-                         core.display_name,
-                         core.display_version,
-                         "-",
-                         cmd,
-                         JSON.stringify(data, null, '  '));*/
         });
     },
 
     core_unpaired: function (core) {
         stop_listener();
-        /* console.log(core.core_id,
-                 core.display_name,
-                 core.display_version,
-                 "-",
-                 "LOST");*/
     }
 
 });
@@ -49,8 +38,8 @@ var mysettings = roon.load_config("settings") || {
     playpauseKey: null,
     nextKey: null,
     prevKey: null,
-    volumeUpKey: null, // da implementare
-    volumeDownKey: null, // da implementare
+    volumeUpKey: null, 
+    volumeDownKey: null, 
     volumeMuteKey: null,
 };
 

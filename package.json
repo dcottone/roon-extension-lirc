@@ -5,7 +5,6 @@
   "main": "app.js",
   "private": true,
   "dependencies": {
-    "lirc_node": "github:juanpescador/lirc_node",
     "node-roon-api": "github:roonlabs/node-roon-api",
     "node-roon-api-browse": "github:roonlabs/node-roon-api-browse",
     "node-roon-api-image": "github:roonlabs/node-roon-api-image",
