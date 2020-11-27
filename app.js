@@ -257,10 +257,8 @@ function start_listener() {
 function stop_listener() {
     if (listenerID != {})
     for (const key in listenerID) {
-     //   console.log("------------> KEY = "+key);
         if (listenerID.hasOwnProperty(key)) {
             const element = listenerID[key];
-     //       console.log("------------> ELEMENT = "+element);
             LircNode.removeListener(element);
         }
     }
