@@ -20,6 +20,8 @@ var roon = new RoonApi({
     core_paired: function (core) {
         update_status();
         transport = core.services.RoonApiTransport;
+        stop_listener();
+        start_listener();
 
         transport.subscribe_zones(function (cmd, data) {
             /* console.log(core.core_id,
@@ -252,17 +254,22 @@ function start_listener() {
 }
 
 function stop_listener() {
-    if (listenerID)
+    if (listenerID != {})
     for (const key in listenerID) {
+     //   console.log("------------> KEY = "+key);
         if (listenerID.hasOwnProperty(key)) {
             const element = listenerID[key];
-            LircNode.removeListener(listenerID[element]);
+     //       console.log("------------> ELEMENT = "+element);
+            LircNode.removeListener(element);
+            listenerID[key]=null;
         }
     }
 }
 
 function setup() {
     LircNode.init();
+    stop_listener();
+
 }
 
 function update_status() {
