@@ -302,7 +302,7 @@ function start_listener() {
                     break;
                 }
             }
-            this.transport.change_volume(mysettings.zone, how, value, (status) => {});
+            transport.change_volume(mysettings.zone, how, value, (status) => {});
         }, 400);
 }
 
