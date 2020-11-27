@@ -257,6 +257,7 @@ function start_listener() {
         listenerID["volumeup"] = LircNode.addListener(mysettings.volumeUpKey, mysettings.remoteName, function (data) {
             zone = transport.zone_by_output_id(mysettings.zone.output_id);
             var volume = zone.outputs[0].volume;
+            var how;
             switch (volume.type) {
                 case 'incremental': {
                     how = 'relative';
@@ -281,6 +282,7 @@ function start_listener() {
         listenerID["volumeup"] = LircNode.addListener(mysettings.volumeDownKey, mysettings.remoteName, function (data) {
             zone = transport.zone_by_output_id(mysettings.zone.output_id);
             var volume = zone.outputs[0].volume;
+            var how;
             switch (volume.type) {
                 case 'incremental': {
                     how = 'relative';
