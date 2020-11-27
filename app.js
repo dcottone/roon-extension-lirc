@@ -227,9 +227,6 @@ roon.init_services({
 });
 
 function start_listener() {
-    zone = transport.zone_by_output_id(mysettings.zone.output_id);
-    
-
     if (mysettings.playpauseKey && mysettings.remoteName)
         listenerID["playpause"] = LircNode.addListener(mysettings.playpauseKey, mysettings.remoteName, function (data) {
             transport.control(mysettings.zone, 'playpause');
@@ -247,6 +244,7 @@ function start_listener() {
 
     if (mysettings.volumeMuteKey && mysettings.remoteName)
         listenerID["mute"] = LircNode.addListener(mysettings.volumeMuteKey, mysettings.remoteName, function (data) {
+            zone = transport.zone_by_output_id(mysettings.zone.output_id);
             var volume = zone.outputs[0].volume;
             var how = volume.is_muted ? 'unmute' : 'mute';
             transport.mute(mysettings.zone,how);
