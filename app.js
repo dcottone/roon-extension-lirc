@@ -15,7 +15,7 @@ var roon = new RoonApi({
     display_version: "1.0.0",
     publisher: 'Daniele Cottone',
     email: 'daniele.cottone@gmail.com',
-    website: 'http://192.168.1.16:380/dcottone/roon-extension-lirc',
+    website: 'http://192.168.1.17/dcottone/roon-extension-lirc',
 
     core_paired: function (core) {
         transport = core.services.RoonApiTransport;
