@@ -3,7 +3,10 @@
   "description": "Roon Extension to control Roon via lirc",
   "version": "1.0.0",
   "main": "app.js",
-  "private": true,
+  "repository": {
+        "type": "git",
+        "url": "http://192.168.1.17/dcottone/roon-extension-lirc"
+    },
   "dependencies": {
     "node-roon-api": "github:roonlabs/node-roon-api",
     "node-roon-api-browse": "github:roonlabs/node-roon-api-browse",
