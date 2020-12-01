@@ -5,7 +5,7 @@
   "main": "app.js",
   "repository": {
         "type": "git",
-        "url": "https://192.168.1.17/dcottone/roon-extension-lirc"
+        "url": "https://192.168.1.17/dcottone/roon-extension-lirc.git"
     },
   "dependencies": {
     "node-roon-api": "github:roonlabs/node-roon-api",
