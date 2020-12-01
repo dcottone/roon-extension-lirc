@@ -1,5 +1,5 @@
 {
-  "name": "roon-extesion-lirc",
+  "name": "roon-extension-lirc",
   "description": "Roon Extension to control Roon via lirc",
   "version": "1.0.0",
   "main": "app.js",
